@@ -1,0 +1,32 @@
+weba:
+  build: ./hap-next-one/.
+  expose:
+    - 3000
+
+webb:
+  build: ./hap-next-two/.
+  expose:
+    - 3000
+
+webc:
+  build: ./hap-next-three/.
+  expose:
+    - 3000
+
+haproxy:
+  image: haproxy:2.6-alpine
+  volumes:
+   - ./config:/usr/local/etc/haproxy
+  links:
+   - weba
+   - webb
+   - webc
+  ports:
+   - "80:80"
+   - "70:70"
+   - "3000:3000"
+
+  expose:
+   - "80"
+   - "70"
+   - "3000"
